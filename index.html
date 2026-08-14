@@ -95,6 +95,16 @@
   .tip-box{margin:14px 0 4px 0; background:var(--tip-bg,#F7F1E4); border-radius:10px; padding:10px 12px; font-size:12px; color:#5a5140; line-height:1.5;}
   .tip-box b{color:var(--d2);}
 
+  /* TRANSIT TABLE */
+  .transit{margin:14px 0 4px 0;}
+  .table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .transit-table{border-collapse:collapse; width:100%; min-width:600px; font-size:11px;}
+  .transit-table th{background:var(--tt-bg,#EEF2F6); color:var(--tt-color,#1F3A5C); font-weight:800; text-align:left; padding:7px 8px; white-space:nowrap; border-bottom:1px solid var(--border);}
+  .transit-table td{padding:7px 8px; border-bottom:1px solid var(--border); color:#4A473F; line-height:1.4;}
+  .transit-table tr:last-child td{border-bottom:none;}
+  .transit-table td.seg{font-weight:700; color:var(--ink); white-space:nowrap;}
+  .transit-table td.dur{font-weight:800; color:var(--tt-color,#1F3A5C); white-space:nowrap;}
+
   /* INFO ACCORDION */
   .info-section{margin:22px 18px 0 18px;}
   .info-head{font-size:13px; font-weight:800; color:var(--muted); letter-spacing:1px; margin:0 0 8px 4px;}
@@ -142,6 +152,8 @@
     .ti .place .code{font-size:11px; padding:2px 6px;}
     .ti .note{font-size:14px;}
     .tip-box{font-size:13.5px; padding:14px 16px; border-radius:12px;}
+    .transit-table{font-size:13px;}
+    .transit-table th, .transit-table td{padding:9px 12px;}
     .info-section{margin:30px 40px 0 40px;}
     .info-head{font-size:14px;}
     summary{font-size:15.5px; padding:16px 20px;}
@@ -207,6 +219,22 @@
       <div class="ti"><div class="time">19:30</div><div class="place">휴식</div></div>
     </div>
     <div class="tip-box" style="--tip-bg:#EEF2F6;"><b>TIP</b> 나리타 익스프레스는 전 좌석 지정제 — 사전 예약 권장. 도요스 센캬쿠반라이는 연중무휴 · 음식점 22시까지 영업이라 저녁 일정에도 여유 있음. 캐릭터 스트리트는 이동 시간 확보를 위해 1시간으로 단축.</div>
+
+    <details class="transit">
+      <summary>🚇 상세 이동 경로</summary>
+      <div class="table-scroll" style="padding:0 14px 14px 14px;">
+        <table class="transit-table" style="--tt-bg:#EEF2F6; --tt-color:#1F3A5C;">
+          <thead><tr><th>구간</th><th>승차역</th><th>노선</th><th>환승</th><th>하차역</th><th>소요</th></tr></thead>
+          <tbody>
+            <tr><td class="seg">공항→시내</td><td>나리타공항 제1터미널역</td><td>JR 나리타 익스프레스(N'EX)</td><td>없음 (직통)</td><td>도쿄역</td><td class="dur">약 1시간</td></tr>
+            <tr><td class="seg">역→호텔</td><td>도쿄역 야에스 지하중앙개찰구</td><td>도보</td><td>-</td><td>karaksa hotel</td><td class="dur">약 3분</td></tr>
+            <tr><td class="seg">호텔→캐릭터 스트리트</td><td>도쿄역 구내(지하1층)</td><td>도보</td><td>-</td><td>도쿄 캐릭터 스트리트</td><td class="dur">약 10~15분</td></tr>
+            <tr><td class="seg">캐릭터St→도요스</td><td>도쿄역</td><td>JR 야마노테선·게이힌토호쿠선(1정거장)</td><td>신바시역에서 유리카모메로 환승</td><td>시조마에역</td><td class="dur">약 35~40분</td></tr>
+            <tr><td class="seg">도요스→호텔</td><td>시조마에역</td><td>유리카모메</td><td>신바시역에서 JR로 환승</td><td>도쿄역</td><td class="dur">약 35~40분</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
   </div>
 
   <!-- DAY 2 -->
@@ -232,6 +260,23 @@
       <div class="ti"><div class="time">19:45</div><div class="place"><a class="maplink" href="https://www.google.com/maps/place/?q=place_id:ChIJJ8NuVriLGGARGwKhYus-22c" target="_blank" rel="noopener">호텔 복귀<span class="pin">📍</span></a></div><div class="note">마루노우치선 직통 약 17분</div></div>
     </div>
     <div class="tip-box" style="--tip-bg:#FBEEE7;"><b>TIP</b> 아침은 아사쿠사 도착 직후 현지에서 해결 — 호텔 조식 없이 출발. 시부야 스카이는 <b style="color:#C1440E;">12:10 예약 확정</b> — 입장 15분 전(11:55)까지 도착 권장.</div>
+
+    <details class="transit">
+      <summary>🚇 상세 이동 경로</summary>
+      <div class="table-scroll" style="padding:0 14px 14px 14px;">
+        <table class="transit-table" style="--tt-bg:#FBEEE7; --tt-color:#C1440E;">
+          <thead><tr><th>구간</th><th>승차역</th><th>노선</th><th>환승</th><th>하차역</th><th>소요</th></tr></thead>
+          <tbody>
+            <tr><td class="seg">호텔→아사쿠사</td><td>도쿄역</td><td>마루노우치선(2분)</td><td>긴자역에서 긴자선으로 환승</td><td>아사쿠사역</td><td class="dur">약 20분</td></tr>
+            <tr><td class="seg">아사쿠사→시부야</td><td>아사쿠사역</td><td>도쿄메트로 긴자선</td><td>없음 (노선 시종점끼리 직통)</td><td>시부야역</td><td class="dur">약 35분</td></tr>
+            <tr><td class="seg">시부야→아키하바라</td><td>시부야역</td><td>JR 야마노테선</td><td>없음 (직통)</td><td>아키하바라역</td><td class="dur">약 30분</td></tr>
+            <tr><td class="seg">아키하바라→이케부쿠로</td><td>아키하바라역</td><td>JR 야마노테선</td><td>없음 (직통)</td><td>이케부쿠로역</td><td class="dur">약 20분</td></tr>
+            <tr><td class="seg">이케부쿠로 내 이동</td><td>이케부쿠로역 동쪽 출구</td><td>도보</td><td>-</td><td>저녁식사 장소</td><td class="dur">약 5분</td></tr>
+            <tr><td class="seg">저녁→호텔</td><td>이케부쿠로역</td><td>도쿄메트로 마루노우치선</td><td>없음 (직통)</td><td>도쿄역</td><td class="dur">약 17분</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
   </div>
 
   <!-- DAY 3 -->
@@ -256,6 +301,20 @@
       <div class="ti"><div class="time">13:25</div><div class="place">나리타공항 출발 → 인천</div></div>
     </div>
     <div class="tip-box" style="--tip-bg:#F7F1E4;"><b>TIP</b> 13:25 출발이라 여유가 많지 않음. 라멘 스트리트는 도쿄역 구내라 아침식사 후 바로 N'EX 승강장으로 이동 가능. 도쿄역 캐릭터 스트리트 추가 쇼핑은 Day1 저녁에 미리 완료할 것.</div>
+
+    <details class="transit">
+      <summary>🚇 상세 이동 경로</summary>
+      <div class="table-scroll" style="padding:0 14px 14px 14px;">
+        <table class="transit-table" style="--tt-bg:#F7F1E4; --tt-color:#A6791D;">
+          <thead><tr><th>구간</th><th>승차역</th><th>노선</th><th>환승</th><th>하차역</th><th>소요</th></tr></thead>
+          <tbody>
+            <tr><td class="seg">호텔→라멘스트리트</td><td>호텔</td><td>도보</td><td>-</td><td>도쿄역 야에스 지하(라멘스트리트)</td><td class="dur">약 5분</td></tr>
+            <tr><td class="seg">라멘St→NEX 승강장</td><td>라멘스트리트</td><td>도보(역 구내 이동)</td><td>-</td><td>도쿄역 JR 승강장</td><td class="dur">약 5~8분</td></tr>
+            <tr><td class="seg">도쿄역→나리타</td><td>도쿄역</td><td>JR 나리타 익스프레스(N'EX)</td><td>없음 (직통)</td><td>나리타공항 제1터미널역</td><td class="dur">약 1시간</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
   </div>
 
   <div class="info-section">
