@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>도쿄 가족여행 일정표</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
     --bg:#FAF6EC;
@@ -105,6 +107,10 @@
   .transit-table td.seg{font-weight:700; color:var(--ink); white-space:nowrap;}
   .transit-table td.dur{font-weight:800; color:var(--tt-color,#1F3A5C); white-space:nowrap;}
 
+  /* DAY MAP */
+  .day-map{height:260px; border-radius:10px; overflow:hidden; border:1px solid var(--border);}
+  .leaflet-container{font-family:inherit;}
+
   /* INFO ACCORDION */
   .info-section{margin:22px 18px 0 18px;}
   .info-head{font-size:13px; font-weight:800; color:var(--muted); letter-spacing:1px; margin:0 0 8px 4px;}
@@ -154,6 +160,7 @@
     .tip-box{font-size:13.5px; padding:14px 16px; border-radius:12px;}
     .transit-table{font-size:13px;}
     .transit-table th, .transit-table td{padding:9px 12px;}
+    .day-map{height:340px;}
     .info-section{margin:30px 40px 0 40px;}
     .info-head{font-size:14px;}
     summary{font-size:15.5px; padding:16px 20px;}
@@ -235,6 +242,13 @@
         </table>
       </div>
     </details>
+
+    <details class="mapbox" data-day-map="1">
+      <summary>🗺️ 오늘의 이동 경로 지도</summary>
+      <div style="padding:0 14px 14px 14px;">
+        <div id="map-day1" class="day-map"></div>
+      </div>
+    </details>
   </div>
 
   <!-- DAY 2 -->
@@ -277,6 +291,13 @@
         </table>
       </div>
     </details>
+
+    <details class="mapbox" data-day-map="2">
+      <summary>🗺️ 오늘의 이동 경로 지도</summary>
+      <div style="padding:0 14px 14px 14px;">
+        <div id="map-day2" class="day-map"></div>
+      </div>
+    </details>
   </div>
 
   <!-- DAY 3 -->
@@ -313,6 +334,13 @@
             <tr><td class="seg">도쿄역→나리타</td><td>도쿄역</td><td>JR 나리타 익스프레스(N'EX)</td><td>없음 (직통)</td><td>나리타공항 제1터미널역</td><td class="dur">약 1시간</td></tr>
           </tbody>
         </table>
+      </div>
+    </details>
+
+    <details class="mapbox" data-day-map="3">
+      <summary>🗺️ 오늘의 이동 경로 지도</summary>
+      <div style="padding:0 14px 14px 14px;">
+        <div id="map-day3" class="day-map"></div>
       </div>
     </details>
   </div>
@@ -363,12 +391,80 @@
 <script>
   const tabs = document.querySelectorAll('.tab');
   const panels = document.querySelectorAll('.dayplate');
+
+  delete L.Icon.Default.prototype._getIconUrl;
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  });
+
+  const dayRoutes = {
+    "1": {
+      color: "#1F3A5C",
+      points: [
+        {name:"나리타공항 제1터미널", latlng:[35.7719,140.3929]},
+        {name:"도쿄역 · karaksa hotel", latlng:[35.6812,139.7671]},
+        {name:"도쿄 캐릭터 스트리트", latlng:[35.6809,139.7666]},
+        {name:"도요스 센캬쿠반라이", latlng:[35.6465,139.7936]},
+        {name:"호텔 복귀", latlng:[35.6812,139.7671]}
+      ]
+    },
+    "2": {
+      color: "#C1440E",
+      points: [
+        {name:"아사쿠사 (카페 투모로우 · 센소지)", latlng:[35.7148,139.7967]},
+        {name:"시부야 스카이", latlng:[35.6590,139.7016]},
+        {name:"아키하바라 전기거리", latlng:[35.6984,139.7731]},
+        {name:"이케부쿠로 애니메이트", latlng:[35.7295,139.7109]},
+        {name:"호텔 복귀", latlng:[35.6812,139.7671]}
+      ]
+    },
+    "3": {
+      color: "#A6791D",
+      points: [
+        {name:"도쿄역 라멘 스트리트", latlng:[35.6812,139.7671]},
+        {name:"나리타공항 제1터미널", latlng:[35.7719,140.3929]}
+      ]
+    }
+  };
+
+  const mapInstances = {};
+  function initDayMap(day){
+    if(mapInstances[day]){ mapInstances[day].invalidateSize(); return; }
+    const route = dayRoutes[day];
+    const el = document.getElementById('map-day' + day);
+    if(!el) return;
+    const map = L.map(el, {scrollWheelZoom:false}).setView(route.points[0].latlng, 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
+    }).addTo(map);
+    const latlngs = route.points.map(p => p.latlng);
+    L.polyline(latlngs, {color: route.color, weight: 3, dashArray: '6,8'}).addTo(map);
+    route.points.forEach((p, i) => {
+      L.marker(p.latlng).addTo(map).bindPopup('<b>' + (i + 1) + '. ' + p.name + '</b>');
+    });
+    map.fitBounds(latlngs, {padding: [24, 24]});
+    mapInstances[day] = map;
+  }
+
+  document.querySelectorAll('details.mapbox').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if(d.open){
+        const day = d.getAttribute('data-day-map');
+        initDayMap(day);
+        setTimeout(() => { if(mapInstances[day]) mapInstances[day].invalidateSize(); }, 200);
+      }
+    });
+  });
+
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       const day = tab.getAttribute('data-day');
       tabs.forEach(t => t.classList.toggle('active', t === tab));
       panels.forEach(p => p.style.display = (p.getAttribute('data-day') === day) ? 'block' : 'none');
       window.scrollTo({top:0, behavior:'smooth'});
+      if(mapInstances[day]) setTimeout(() => mapInstances[day].invalidateSize(), 100);
     });
   });
 </script>
